@@ -1,14 +1,17 @@
 # Local Utilities MCP Server
 
-A Model Context Protocol (MCP) server that provides various local system utilities. This server can be used with Claude Desktop or any other MCP-compatible client to access system information and utilities.
+A Model Context Protocol (MCP) server that provides access to various local system utilities. This server can be used with Cursor and other MCP-compatible clients to provide quick access to system information.
 
 ## Features
 
-- **Time and Date Utilities**
-  - Get current time in local format
-  - Get current date
-  - Get ISO timestamp
-  - Get Unix timestamp
+The server provides the following utilities:
+
+- **Time and Date**: Get the current local time and date in various formats
+- **Hostname**: Get the system's hostname
+- **Public IP**: Get the machine's public IP address
+- **Directory Listing**: List the contents of a specified directory
+- **Node.js Version**: Get the currently running Node.js version
+- **Port Checker**: Check what process is running on a specific port
 
 ## Installation
 
@@ -18,102 +21,141 @@ A Model Context Protocol (MCP) server that provides various local system utiliti
 npm install -g localutils-mcp-server
 ```
 
-### Local Development
+### Using with npx
 
-1. Clone this repository:
-```bash
-git clone https://github.com/yourusername/localutils-mcp-server.git
-cd localutils-mcp-server
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Build the server:
-```bash
-npm run build
-```
-
-## Usage
-
-### With Claude Desktop
-
-Add the following configuration to your Claude Desktop config file:
-
-On MacOS (`~/Library/Application Support/Claude/claude_desktop_config.json`):
-```json
-{
-  "mcpServers": {
-    "localutils": {
-      "command": "node",
-      "args": ["/absolute/path/to/localutils-mcp-server/build/index.js"]
-    }
-  }
-}
-```
-
-### Direct Usage
-
-You can run the server directly using:
+You can also run the server directly using npx without installing it globally:
 
 ```bash
 npx localutils-mcp-server
 ```
 
-### Development
+## Usage
 
-To run the server in development mode with auto-reloading:
+### Starting the Server
+
+If installed globally:
+
+```bash
+localutils-mcp
+```
+
+With npx:
+
+```bash
+npx localutils-mcp-server
+```
+
+### Using with Cursor
+
+The server can be used with Cursor by configuring it as an MCP server in Cursor's settings.
+
+1. Open Cursor settings
+2. Navigate to the MCP section
+3. Add a new MCP server with the following configuration:
+   ```json
+   {
+     "name": "localutils",
+     "command": "npx",
+     "args": ["localutils-mcp-server"]
+   }
+   ```
+
+### Using the MCP Inspector
+
+You can test the server using the MCP Inspector:
+
+```bash
+npm run inspector
+```
+
+This will start the MCP Inspector at http://localhost:5173.
+
+## Available Tools
+
+### `get_time_and_date`
+
+Returns the current local time and date in various formats.
+
+### `get_hostname`
+
+Returns the hostname of the machine running the MCP server.
+
+### `get_public_ip`
+
+Returns the public IP address of the machine running the MCP server.
+
+### `list_directory`
+
+Lists the contents of a specified directory.
+
+**Parameters:**
+- `path` (string, required): Directory path to list
+
+### `get_node_version`
+
+Returns the Node.js version information of the environment running the MCP server.
+
+### `check_port`
+
+Checks what process is running on a specific port.
+
+**Parameters:**
+- `port` (number or string, required): Port number to check (1-65535). String values will be automatically converted to numbers.
+
+**Example Response (macOS/Linux):**
+```json
+{
+  "processes": [
+    {
+      "command": "node",
+      "pid": "12345",
+      "user": "username",
+      "fd": "12u",
+      "type": "IPv4",
+      "device": "0x1234567890",
+      "size": "0t0",
+      "node": "TCP",
+      "name": "*:3000 (LISTEN)"
+    }
+  ],
+  "message": "Found 1 process(es) using port 3000"
+}
+```
+
+## Development
+
+### Building
+
+```bash
+npm run build
+```
+
+### Running in Development Mode
+
 ```bash
 npm run dev
 ```
 
-To watch for TypeScript changes:
-```bash
-npm run watch
-```
+### Testing
 
-To run tests:
 ```bash
 npm test
 ```
 
-## Available Tools
+### Git Workflow
 
-### get_time_and_date
+This repository includes a pre-commit hook that automatically builds the server before each commit. This ensures that the build files are always up-to-date in the repository.
 
-Returns the current time and date in various formats:
-- Local time (e.g., "4:30:00 PM")
-- Local date (e.g., "3/8/2024")
-- ISO string (e.g., "2024-03-08T16:30:00.000Z")
-- Unix timestamp (e.g., 1709915400000)
+The build folder is included in the git repository to make it easier to use the package with npx without having to build it first.
 
-No parameters required.
+To set up the pre-commit hook after cloning the repository:
 
-Example response:
-```json
-{
-  "time": "4:30:00 PM",
-  "date": "3/8/2024",
-  "iso": "2024-03-08T16:30:00.000Z",
-  "timestamp": 1709915400000
-}
+```bash
+npm install
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This will install dependencies and set up the pre-commit hook via Husky.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Built with [Model Context Protocol (MCP)](https://modelcontextprotocol.io)
-- Uses TypeScript and Node.js 
+MIT 

@@ -21,6 +21,37 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 5. Make sure your code lints.
 6. Issue that pull request!
 
+## Development Setup
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. This will set up the pre-commit hook that automatically builds the project before each commit.
+
+## Build Process
+
+The build process compiles TypeScript to JavaScript and makes the CLI executable:
+
+```bash
+npm run build
+```
+
+This project includes a pre-commit hook that automatically runs the build process before each commit. This ensures that the build files are always up-to-date in the repository.
+
+The build folder is included in the git repository to make it easier to use the package with npx without having to build it first.
+
+## Adding New Utilities
+
+When adding a new utility:
+
+1. Create a new file in `src/mcp/` for your utility
+2. Follow the pattern of existing utilities
+3. Register your utility in `src/index.ts`
+4. Add tests in `src/__tests__/mcp/`
+5. Update documentation in `src/mcp/README.md` and the main `README.md`
+
 ## Any contributions you make will be under the MIT Software License
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
@@ -44,6 +75,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 * Use TypeScript for all source files
 * 2 spaces for indentation rather than tabs
 * You can try running `npm run lint` for style unification
+* Follow the TypeScript coding standards in the `.cursorrules` file
 
 ## License
 By contributing, you agree that your contributions will be licensed under its MIT License. 
