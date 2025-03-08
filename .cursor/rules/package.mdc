@@ -1,0 +1,54 @@
+# Package Management Standards
+
+## Dependencies
+- Keep dependencies up to date
+- Use exact versions for critical dependencies
+- Separate dev dependencies properly
+- Document dependency purposes
+- Audit dependencies regularly
+
+## Scripts
+- Include standard npm scripts:
+  - build
+  - test
+  - start
+  - dev
+  - lint
+- Use consistent script naming
+- Document custom scripts
+- Keep scripts focused and simple
+
+## Version Management
+- Follow semantic versioning
+- Update version numbers appropriately
+- Document version changes
+- Test before version bumps
+- Tag releases properly
+
+## Security
+- Regular security audits
+- Fix vulnerabilities promptly
+- Use trusted packages only
+- Keep lockfiles up to date
+- Review package permissions
+
+## Configuration
+- Use appropriate Node version
+- Set correct package type
+- Configure access properly
+- Set up proper bin entries
+- Include necessary files only
+
+## Publishing
+- Test before publishing
+- Update documentation
+- Check package contents
+- Verify license compliance
+- Use proper registry settings
+
+## Maintenance
+- Regular dependency updates
+- Remove unused dependencies
+- Keep scripts maintained
+- Update engines field
+- Review package size 

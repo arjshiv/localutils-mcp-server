@@ -1,0 +1,22 @@
+# Cursor Rules for localutils-mcp-server
+# See .cursor/rules/ directory for detailed rule documentation
+
+# TypeScript Rules
+*.ts=typescript.mdc
+*.tsx=typescript.mdc
+
+# Test Files
+*.test.ts=testing.mdc
+*.spec.ts=testing.mdc
+src/__tests__/**=testing.mdc
+
+# Package Management
+package.json=package.mdc
+package-lock.json=package-lock.mdc
+
+# Configuration Files
+*.config.js=config.mdc
+tsconfig.json=typescript-config.mdc
+
+# Documentation
+*.md=documentation.mdc 

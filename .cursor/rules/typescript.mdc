@@ -1,0 +1,47 @@
+# TypeScript Coding Standards
+
+## File Organization
+- Use named exports over default exports
+- Group imports in the following order:
+  1. Node built-in modules
+  2. External dependencies
+  3. Internal modules
+- Separate import groups with blank lines
+
+## Type Safety
+- Avoid using `any` type
+- Use explicit type annotations for function parameters and return types
+- Prefer interfaces over type aliases for object types
+- Use union types for values that can be one of several types
+
+## Naming Conventions
+- Use PascalCase for class names and interfaces
+- Use camelCase for variables, functions, and methods
+- Use UPPER_SNAKE_CASE for constants
+- Prefix interfaces with 'I' (e.g., ITimeService)
+- Prefix type aliases with 'T' (e.g., TTimeFormat)
+
+## Functions
+- Keep functions small and focused
+- Use arrow functions for callbacks
+- Implement proper error handling
+- Add JSDoc comments for public functions
+
+## Error Handling
+- Use custom error classes for domain-specific errors
+- Always include error messages
+- Implement proper error propagation
+- Use try-catch blocks appropriately
+
+## Async Code
+- Use async/await over raw promises
+- Handle promise rejections properly
+- Avoid nested promises
+- Use Promise.all for parallel operations
+
+## Code Style
+- Use 2 spaces for indentation
+- Maximum line length: 100 characters
+- Use semicolons
+- Use single quotes for strings
+- Add trailing commas in multiline objects/arrays 
