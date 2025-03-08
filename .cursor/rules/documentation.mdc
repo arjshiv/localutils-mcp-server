@@ -1,9 +1,4 @@
----
-description: Documentation
-globs: 
-alwaysApply: false
----
- # Documentation Standards
+# Documentation Standards
 
 ## README.md
 - Clear project description
