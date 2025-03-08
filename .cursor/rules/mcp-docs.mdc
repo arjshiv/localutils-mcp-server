@@ -1,0 +1,93 @@
+---
+description: MCP 
+globs: 
+alwaysApply: false
+---
+# MCP Documentation Standards
+
+## Required Documentation Components
+
+### 1. Workflow Diagrams
+Every MCP implementation must include Mermaid diagrams for:
+- Main protocol workflow
+- Error handling flow
+- Data processing pipeline
+- Command execution sequence
+
+Example workflow:
+```mermaid
+graph TD
+    A[Start] --> B{Protocol Type}
+    B -->|Command| C[Execute Command]
+    B -->|Query| D[Process Query]
+    B -->|Event| E[Handle Event]
+    C --> F[Return Result]
+    D --> F
+    E --> F
+    F --> G[End]
+```
+
+### 2. Protocol Documentation
+- Protocol name and version
+- Request/Response schema
+- Supported commands
+- Error codes and handling
+- Example usage
+
+### 3. Implementation Details
+Each implementation must document:
+- Dependencies and requirements
+- Configuration options
+- Security considerations
+- Performance characteristics
+- Rate limiting (if applicable)
+
+### 4. Testing Requirements
+Document test coverage for:
+```mermaid
+graph LR
+    A[Unit Tests] --> D[Coverage]
+    B[Integration Tests] --> D
+    C[E2E Tests] --> D
+    D{80% Min Coverage}
+```
+
+## File Organization
+
+### README.md Structure
+```
+protocol-name/
+├── README.md
+├── WORKFLOW.md
+├── SECURITY.md
+└── examples/
+    └── basic-usage.md
+```
+
+## Style Guidelines
+
+### Mermaid Diagrams
+- Use consistent node shapes
+- Include color coding for different types
+- Add descriptive labels
+- Keep diagrams focused and clear
+
+### Code Examples
+- Include TypeScript types
+- Show error handling
+- Provide complete working examples
+- Include comments for complex logic
+
+## Review Checklist
+- [ ] All required diagrams present
+- [ ] Diagrams follow style guidelines
+- [ ] Documentation is complete
+- [ ] Examples are tested and working
+- [ ] Security considerations documented
+- [ ] Performance characteristics documented
+
+## Maintenance
+- Update diagrams when workflow changes
+- Keep examples up to date
+- Review and update security docs
+- Maintain test coverage documentation 
