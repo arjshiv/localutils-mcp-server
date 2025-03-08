@@ -3,6 +3,40 @@
 This document defines the coding standards and rules for the localutils-mcp-server project.
 All rules are enforced through the Cursor IDE and are documented in detail in the `.cursor/rules/` directory.
 
+## MCP Workflow Diagrams
+All MCP implementations must include workflow diagrams using Mermaid. Below is the standard MCP workflow:
+
+```mermaid
+graph TD
+    A[Client Request] --> B[MCP Server]
+    B --> C{Protocol Handler}
+    C --> D[Execute Command]
+    C --> E[Process Data]
+    C --> F[Handle Error]
+    D --> G[Return Result]
+    E --> G
+    F --> G
+    G --> B
+    B --> H[Client Response]
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#dfd,stroke:#333,stroke-width:2px
+```
+
+### Required Workflow Documentation
+Each MCP implementation must document:
+```mermaid
+graph LR
+    A[Protocol Definition] --> B[Handler Implementation]
+    B --> C[Error Handling]
+    B --> D[Data Processing]
+    B --> E[Command Execution]
+    
+    style A fill:#f96,stroke:#333,stroke-width:2px
+    style B fill:#9cf,stroke:#333,stroke-width:2px
+```
+
 ## Core TypeScript Files
 | Pattern | Rule File | Description |
 |---------|-----------|-------------|
@@ -47,6 +81,14 @@ All rules are enforced through the Cursor IDE and are documented in detail in th
 | `CHANGELOG.md` | documentation.mdc | Change log |
 | `CONTRIBUTING.md` | documentation.mdc | Contribution guide |
 | `LICENSE` | documentation.mdc | License file |
+
+## MCP Documentation
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `src/mcp/**/README.md` | mcp-docs.mdc | MCP implementation docs |
+| `src/mcp/**/*.flow.md` | mcp-docs.mdc | MCP workflow diagrams |
+| `src/protocols/**/README.md` | mcp-docs.mdc | Protocol documentation |
+| `docs/mcp/*.md` | mcp-docs.mdc | General MCP documentation |
 
 ## Build Output
 | Pattern | Rule File | Description |
