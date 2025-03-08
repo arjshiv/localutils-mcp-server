@@ -1,22 +1,88 @@
 # Cursor Rules for localutils-mcp-server
-# See .cursor/rules/ directory for detailed rule documentation
 
-# TypeScript Rules
-*.ts=typescript.mdc
-*.tsx=typescript.mdc
+This document defines the coding standards and rules for the localutils-mcp-server project.
+All rules are enforced through the Cursor IDE and are documented in detail in the `.cursor/rules/` directory.
 
-# Test Files
-*.test.ts=testing.mdc
-*.spec.ts=testing.mdc
-src/__tests__/**=testing.mdc
+## Core TypeScript Files
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `*.ts` | typescript.mdc | Core TypeScript source files |
+| `*.tsx` | typescript.mdc | TypeScript React components |
+| `src/**/*.ts` | typescript.mdc | All TypeScript files in src |
+| `src/utils/*.ts` | typescript.mdc | Utility TypeScript files |
+| `src/types/*.ts` | typescript.mdc | Type definition files |
 
-# Package Management
-package.json=package.mdc
-package-lock.json=package-lock.mdc
+## Testing Files
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `*.test.ts` | testing.mdc | Unit test files |
+| `*.spec.ts` | testing.mdc | Integration test files |
+| `src/__tests__/**` | testing.mdc | Test directory and contents |
+| `src/**/*.test.ts` | testing.mdc | Tests throughout source |
+| `src/test-utils/*.ts` | testing.mdc | Test utilities |
 
-# Configuration Files
-*.config.js=config.mdc
-tsconfig.json=typescript-config.mdc
+## Configuration Files
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `*.config.js` | config.mdc | JavaScript config files |
+| `*.config.ts` | config.mdc | TypeScript config files |
+| `tsconfig.json` | typescript-config.mdc | TypeScript configuration |
+| `jest.config.js` | config.mdc | Jest test configuration |
+| `.env*` | config.mdc | Environment configurations |
 
-# Documentation
-*.md=documentation.mdc 
+## Package Management
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `package.json` | package.mdc | NPM package definition |
+| `package-lock.json` | package-lock.mdc | NPM lock file |
+| `yarn.lock` | package-lock.mdc | Yarn lock file |
+| `pnpm-lock.yaml` | package-lock.mdc | PNPM lock file |
+
+## Documentation
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `*.md` | documentation.mdc | Markdown documentation |
+| `docs/**/*.md` | documentation.mdc | Documentation directory |
+| `README.md` | documentation.mdc | Project readme |
+| `CHANGELOG.md` | documentation.mdc | Change log |
+| `CONTRIBUTING.md` | documentation.mdc | Contribution guide |
+| `LICENSE` | documentation.mdc | License file |
+
+## Build Output
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `build/**` | ignore | Build output directory |
+| `dist/**` | ignore | Distribution directory |
+| `coverage/**` | ignore | Test coverage reports |
+| `node_modules/**` | ignore | Dependencies directory |
+
+## IDE and Tools
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `.vscode/**` | ignore | VSCode settings |
+| `.idea/**` | ignore | IntelliJ settings |
+| `.git/**` | ignore | Git directory |
+| `.DS_Store` | ignore | macOS system files |
+
+## MCP Specific
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `src/mcp/**/*.ts` | typescript.mdc | MCP implementation files |
+| `src/protocols/**/*.ts` | typescript.mdc | Protocol definition files |
+| `src/handlers/**/*.ts` | typescript.mdc | Protocol handlers |
+
+## Scripts and Tools
+| Pattern | Rule File | Description |
+|---------|-----------|-------------|
+| `scripts/**/*.ts` | typescript.mdc | Build and utility scripts |
+| `tools/**/*.ts` | typescript.mdc | Development tools |
+| `bin/**/*.ts` | typescript.mdc | Binary executables |
+
+## Notes:
+1. Rules are applied in order of specificity (more specific patterns take precedence)
+2. The `ignore` rule means the files are excluded from Cursor's analysis
+3. Custom rules can be added in `.cursor/rules/` directory
+4. File patterns support glob syntax
+5. Multiple rules can be applied to the same file
+
+For detailed rule documentation, see the corresponding .mdc files in `.cursor/rules/`. 

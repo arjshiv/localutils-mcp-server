@@ -1,3 +1,8 @@
+---
+description: # TypeScript Coding Standards
+globs: *.ts
+alwaysApply: false
+---
 # TypeScript Coding Standards
 
 ## File Organization

@@ -1,6 +1,55 @@
 ---
-description: 
-globs: 
+description: Testing
+globs: src/__tests__/*
 alwaysApply: false
 ---
- 
+# Testing Standards
+
+## Test Organization
+- Place tests in `__tests__` directory
+- Name test files with `.test.ts` or `.spec.ts` suffix
+- Group related tests in describe blocks
+- Use clear, descriptive test names
+
+## Test Structure
+- Follow AAA pattern:
+  1. Arrange - Set up test data
+  2. Act - Execute the code being tested
+  3. Assert - Verify the results
+
+## Test Coverage
+- Aim for 80%+ code coverage
+- Test both success and error cases
+- Test edge cases and boundary conditions
+- Include integration tests for critical paths
+
+## Best Practices
+- Keep tests independent
+- Avoid test interdependence
+- Clean up after each test
+- Use beforeEach/afterEach for setup/teardown
+- Mock external dependencies
+
+## Assertions
+- Use explicit assertions
+- One assertion per test when possible
+- Use appropriate matchers
+- Include meaningful error messages
+
+## Mocking
+- Mock external dependencies
+- Use jest.mock() for module mocking
+- Reset mocks between tests
+- Verify mock calls when relevant
+
+## Test Data
+- Use factories for test data
+- Keep test data minimal
+- Use meaningful test data names
+- Avoid sharing mutable test data
+
+## Performance
+- Keep tests fast
+- Avoid unnecessary async operations
+- Use setup/teardown hooks efficiently
+- Group similar tests together 

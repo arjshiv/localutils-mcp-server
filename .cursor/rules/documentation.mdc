@@ -1,6 +1,56 @@
 ---
-description: 
+description: Documentation
 globs: 
 alwaysApply: false
 ---
- 
+ # Documentation Standards
+
+## README.md
+- Clear project description
+- Installation instructions
+- Usage examples
+- API documentation
+- Contributing guidelines
+- License information
+
+## JSDoc Comments
+- Document all public functions and classes
+- Include parameter descriptions
+- Specify return types
+- Document thrown errors
+- Add examples for complex functions
+
+## Code Comments
+- Write self-documenting code
+- Comment only when necessary
+- Explain why, not what
+- Keep comments up to date
+- Use TODO comments for future work
+
+## Markdown Style
+- Use proper heading hierarchy
+- Include table of contents for long documents
+- Use code blocks with language specification
+- Include links to related documentation
+- Keep line length under 100 characters
+
+## API Documentation
+- Document all endpoints
+- Include request/response examples
+- List all parameters
+- Document error responses
+- Provide authentication details
+
+## Change Documentation
+- Keep CHANGELOG.md up to date
+- Follow semantic versioning
+- Document breaking changes
+- Include migration guides
+- Reference issue numbers
+
+## Type Documentation
+- Document complex types
+- Include usage examples
+- Document type constraints
+- Link to related interfaces
+- Document generic parameters 
