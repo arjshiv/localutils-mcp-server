@@ -26,16 +26,24 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 1. Clone the repository
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 3. This will set up the pre-commit hook that automatically builds the project before each commit.
+
+## Package Management
+
+This project uses pnpm for package management. If you don't have pnpm installed, you can install it globally:
+
+```bash
+npm install -g pnpm
+```
 
 ## Build Process
 
 The build process compiles TypeScript to JavaScript and makes the CLI executable:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 This project includes a pre-commit hook that automatically runs the build process before each commit. This ensures that the build files are always up-to-date in the repository.
@@ -74,7 +82,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 * Use TypeScript for all source files
 * 2 spaces for indentation rather than tabs
-* You can try running `npm run lint` for style unification
+* You can try running `pnpm run lint` for style unification
 * Follow the TypeScript coding standards in the `.cursorrules` file
 
 ## License

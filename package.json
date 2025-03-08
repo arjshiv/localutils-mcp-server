@@ -11,14 +11,14 @@
   ],
   "scripts": {
     "build": "tsc && chmod +x build/index.js",
-    "prepare": "npm run build && husky",
+    "prepare": "pnpm run build && husky",
     "watch": "tsc --watch",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "start": "node build/index.js",
     "inspector": "npx @modelcontextprotocol/inspector build/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "mcp",

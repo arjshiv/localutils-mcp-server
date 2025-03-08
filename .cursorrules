@@ -71,6 +71,8 @@ graph LR
 | `package-lock.json` | package-lock.mdc | NPM lock file |
 | `yarn.lock` | package-lock.mdc | Yarn lock file |
 | `pnpm-lock.yaml` | package-lock.mdc | PNPM lock file |
+| `.npmrc` | package.mdc | NPM/PNPM configuration |
+| `pnpm-workspace.yaml` | package.mdc | PNPM workspace configuration |
 
 ## Documentation
 | Pattern | Rule File | Description |
@@ -97,6 +99,7 @@ graph LR
 | `dist/**` | ignore | Distribution directory |
 | `coverage/**` | ignore | Test coverage reports |
 | `node_modules/**` | ignore | Dependencies directory |
+| `.pnpm-store/**` | ignore | PNPM store directory |
 
 ## IDE and Tools
 | Pattern | Rule File | Description |

@@ -18,7 +18,7 @@ The server provides the following utilities:
 ### Global Installation
 
 ```bash
-npm install -g localutils-mcp-server
+pnpm add -g localutils-mcp-server
 ```
 
 ### Using with npx
@@ -65,7 +65,7 @@ The server can be used with Cursor by configuring it as an MCP server in Cursor'
 You can test the server using the MCP Inspector:
 
 ```bash
-npm run inspector
+pnpm run inspector
 ```
 
 This will start the MCP Inspector at http://localhost:5173.
@@ -127,19 +127,19 @@ Checks what process is running on a specific port.
 ### Building
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### Running in Development Mode
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ### Testing
 
 ```bash
-npm test
+pnpm test
 ```
 
 ### Git Workflow
@@ -151,7 +151,7 @@ The build folder is included in the git repository to make it easier to use the 
 To set up the pre-commit hook after cloning the repository:
 
 ```bash
-npm install
+pnpm install
 ```
 
 This will install dependencies and set up the pre-commit hook via Husky.
