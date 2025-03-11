@@ -1,7 +1,7 @@
-import { getCurrentTimeAndDate } from '../utils/time.js';
+import { getCurrentTimeAndDate } from '../mcp/time.js';
 describe('Time Utilities', () => {
     let originalDate;
-    const mockDate = new Date('2024-03-08T16:30:00.000Z');
+    const mockDate = new Date('2024-03-08T16:30:00.000Z'); // This was a Friday
     beforeAll(() => {
         originalDate = global.Date;
         global.Date = class extends Date {
@@ -18,10 +18,12 @@ describe('Time Utilities', () => {
         const result = getCurrentTimeAndDate();
         expect(result).toHaveProperty('time');
         expect(result).toHaveProperty('date');
+        expect(result).toHaveProperty('dayOfWeek');
         expect(result).toHaveProperty('iso');
         expect(result).toHaveProperty('timestamp');
         expect(typeof result.time).toBe('string');
         expect(typeof result.date).toBe('string');
+        expect(typeof result.dayOfWeek).toBe('string');
         expect(typeof result.iso).toBe('string');
         expect(typeof result.timestamp).toBe('number');
     });
@@ -33,6 +35,11 @@ describe('Time Utilities', () => {
         const result = getCurrentTimeAndDate();
         expect(result.date).toBeTruthy();
         expect(typeof result.date).toBe('string');
+    });
+    it('should return correct day of week', () => {
+        const result = getCurrentTimeAndDate();
+        expect(result.dayOfWeek).toBe('Friday'); // March 8, 2024 was a Friday
+        expect(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']).toContain(result.dayOfWeek);
     });
     it('should return valid ISO string', () => {
         const result = getCurrentTimeAndDate();
