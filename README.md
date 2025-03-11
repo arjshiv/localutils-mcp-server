@@ -6,7 +6,7 @@ A Model Context Protocol (MCP) server that provides access to various local syst
 
 The server provides the following utilities:
 
-- **Time and Date**: Get the current local time and date in various formats
+- **Time and Date**: Get the current local time and date, including day of the week, in various formats
 - **Hostname**: Get the system's hostname
 - **Public IP**: Get the machine's public IP address
 - **Directory Listing**: List the contents of a specified directory
@@ -74,7 +74,12 @@ This will start the MCP Inspector at http://localhost:5173.
 
 ### `get_time_and_date`
 
-Returns the current local time and date in various formats.
+Returns the current local time and date in various formats, including:
+- Local time
+- Local date
+- Day of the week
+- ISO 8601 format
+- Unix timestamp
 
 ### `get_hostname`
 

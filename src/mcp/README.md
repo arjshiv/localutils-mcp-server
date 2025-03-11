@@ -13,6 +13,7 @@ Returns the current local time and date in various formats.
 {
   "time": "3:30:45 PM",
   "date": "3/8/2025",
+  "dayOfWeek": "Friday",
   "iso": "2025-03-08T15:30:45.123Z",
   "timestamp": 1741617045123
 }
