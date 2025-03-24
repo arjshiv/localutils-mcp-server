@@ -7,6 +7,7 @@ import { registerDirectoryTool } from "./mcp/directory.js";
 import { registerNodeVersionTool } from "./mcp/node-version.js";
 import { registerPortCheckerTool } from "./mcp/port-checker.js";
 import { registerTimeTool } from "./mcp/time.js";
+import { registerThinkTool } from "./mcp/think.js";
 // Create an MCP server
 const server = new McpServer({
     name: "Local Utilities MCP Server",
@@ -19,6 +20,7 @@ registerDirectoryTool(server);
 registerNodeVersionTool(server);
 registerPortCheckerTool(server);
 registerTimeTool(server);
+registerThinkTool(server);
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);

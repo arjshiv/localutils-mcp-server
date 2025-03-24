@@ -1,11 +1,12 @@
-import type { MCPRequest, MCPResponse } from '../types/mcp.js';
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
 
-interface Thought {
+export interface Thought {
   timestamp: string;
   content: string;
 }
 
-interface ThoughtStats {
+export interface ThoughtStats {
   [key: string]: number | string | null;
   totalThoughts: number;
   averageLength: number;
@@ -13,25 +14,25 @@ interface ThoughtStats {
   newestThought: string | null;
 }
 
-class ThinkTool {
+export class ThinkTool {
   private thoughts: Thought[] = [];
 
-  private addThought(content: string): void {
+  addThought(content: string): void {
     this.thoughts.push({
       timestamp: new Date().toISOString(),
       content
     });
   }
 
-  private getAllThoughts(): Thought[] {
+  getAllThoughts(): Thought[] {
     return [...this.thoughts];
   }
 
-  private clearThoughts(): void {
+  clearThoughts(): void {
     this.thoughts = [];
   }
 
-  private getThoughtStats(): ThoughtStats {
+  getThoughtStats(): ThoughtStats {
     const totalThoughts = this.thoughts.length;
     
     if (totalThoughts === 0) {
@@ -53,51 +54,68 @@ class ThinkTool {
       newestThought: this.thoughts[this.thoughts.length - 1].timestamp
     };
   }
-
-  async handleRequest(request: MCPRequest): Promise<MCPResponse> {
-    try {
-      const { command, params } = request;
-
-      switch (command) {
-        case 'think':
-          if (!params?.thought || typeof params.thought !== 'string') {
-            throw new Error('Missing or invalid thought parameter');
-          }
-          this.addThought(params.thought);
-          return {
-            success: true,
-            data: { message: 'Thought recorded successfully' }
-          };
-
-        case 'get_thoughts':
-          return {
-            success: true,
-            data: { thoughts: this.getAllThoughts() }
-          };
-
-        case 'clear_thoughts':
-          this.clearThoughts();
-          return {
-            success: true,
-            data: { message: 'All thoughts cleared' }
-          };
-
-        case 'get_thought_stats':
-          return {
-            success: true,
-            data: this.getThoughtStats()
-          };
-
-        default:
-          throw new Error(`Unknown command: ${command}`);
-      }
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred'
-      };
-    }
-  }
 }
 
-export const thinkTool = new ThinkTool(); 
+export function registerThinkTool(server: McpServer) {
+  const tool = new ThinkTool();
+
+  // Register think command
+  server.tool(
+    "think",
+    { thought: z.string().describe("The thought content to record") },
+    async (params) => {
+      tool.addThought(params.thought);
+      return {
+        content: [{
+          type: "text",
+          text: "Thought recorded successfully"
+        }]
+      };
+    }
+  );
+
+  // Register get_thoughts command
+  server.tool(
+    "get_thoughts",
+    "Retrieve all recorded thoughts",
+    async () => {
+      const thoughts = tool.getAllThoughts();
+      return {
+        content: [{
+          type: "text",
+          text: JSON.stringify(thoughts, null, 2)
+        }]
+      };
+    }
+  );
+
+  // Register clear_thoughts command
+  server.tool(
+    "clear_thoughts",
+    "Clear all recorded thoughts",
+    async () => {
+      tool.clearThoughts();
+      return {
+        content: [{
+          type: "text",
+          text: "All thoughts cleared"
+        }]
+      };
+    }
+  );
+
+  // Register get_thought_stats command
+  server.tool(
+    "get_thought_stats",
+    "Get statistics about recorded thoughts",
+    async () => {
+      const stats = tool.getThoughtStats();
+      return {
+        content: [{
+          type: "text",
+          text: JSON.stringify(stats, null, 2)
+        }]
+      };
+    }
+  );
+} 
