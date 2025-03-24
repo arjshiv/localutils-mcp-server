@@ -12,6 +12,7 @@ The server provides the following utilities:
 - **Directory Listing**: List the contents of a specified directory
 - **Node.js Version**: Get the currently running Node.js version
 - **Port Checker**: Check what process is running on a specific port
+- **Think Tool**: Record, retrieve, and analyze thoughts during development sessions
 
 ## Installation
 
@@ -124,6 +125,73 @@ Checks what process is running on a specific port.
     }
   ],
   "message": "Found 1 process(es) using port 3000"
+}
+```
+
+### `think`
+
+Records a new thought with timestamp.
+
+**Parameters:**
+- `thought` (string, required): The thought content to record
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Thought recorded successfully"
+  }
+}
+```
+
+### `get_thoughts`
+
+Retrieves all recorded thoughts.
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "thoughts": [
+      {
+        "timestamp": "2025-03-24T15:00:00.000Z",
+        "content": "Need to update the documentation"
+      }
+    ]
+  }
+}
+```
+
+### `clear_thoughts`
+
+Clears all recorded thoughts.
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "message": "All thoughts cleared"
+  }
+}
+```
+
+### `get_thought_stats`
+
+Returns statistics about recorded thoughts.
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "totalThoughts": 1,
+    "averageLength": 28,
+    "oldestThought": "2025-03-24T15:00:00.000Z",
+    "newestThought": "2025-03-24T15:00:00.000Z"
+  }
 }
 ```
 
