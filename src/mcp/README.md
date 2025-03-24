@@ -147,4 +147,102 @@ All tools follow a consistent error handling pattern. If an error occurs, the re
   "error": "Failed to retrieve hostname",
   "details": "Error message details"
 }
-``` 
+```
+
+# Think Tool MCP Implementation
+
+A simple thought recording and analysis tool implemented as an MCP utility.
+
+## Protocol Documentation
+
+### Commands
+
+1. `think`
+   - Records a new thought with timestamp
+   - Parameters:
+     - `thought` (string): The thought content to record
+   - Response:
+     - Success: `{ message: "Thought recorded successfully" }`
+     - Error: Missing or invalid thought parameter
+
+2. `get_thoughts`
+   - Retrieves all recorded thoughts
+   - Parameters: None
+   - Response:
+     - Success: `{ thoughts: Array<{ timestamp: string, content: string }> }`
+
+3. `clear_thoughts`
+   - Clears all recorded thoughts
+   - Parameters: None
+   - Response:
+     - Success: `{ message: "All thoughts cleared" }`
+
+4. `get_thought_stats`
+   - Returns statistics about recorded thoughts
+   - Parameters: None
+   - Response:
+     - Success: `{ totalThoughts: number, averageLength: number, oldestThought: string | null, newestThought: string | null }`
+
+### Workflow
+
+```mermaid
+graph TD
+    A[Client Request] --> B{Command Type}
+    B -->|think| C[Record Thought]
+    B -->|get_thoughts| D[Retrieve Thoughts]
+    B -->|clear_thoughts| E[Clear All]
+    B -->|get_thought_stats| F[Calculate Stats]
+    C --> G[Response]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[Client]
+```
+
+### Error Handling
+
+```mermaid
+graph TD
+    A[Request] --> B{Validate}
+    B -->|Invalid| C[Error Response]
+    B -->|Valid| D[Process Command]
+    D -->|Success| E[Success Response]
+    D -->|Error| C
+```
+
+## Example Usage
+
+```typescript
+// Record a thought
+await mcp.request({
+  command: 'think',
+  params: { thought: 'Remember to update documentation' }
+});
+
+// Get all thoughts
+const response = await mcp.request({
+  command: 'get_thoughts'
+});
+console.log(response.data.thoughts);
+
+// Get statistics
+const stats = await mcp.request({
+  command: 'get_thought_stats'
+});
+console.log(stats.data);
+```
+
+## Security Considerations
+
+- All thought content is stored in memory
+- No persistent storage, thoughts are cleared when server restarts
+- Input validation for thought content
+- No authentication/authorization (relies on MCP server security)
+
+## Performance Characteristics
+
+- O(1) for recording thoughts
+- O(1) for retrieving thoughts (returns reference to array)
+- O(n) for calculating statistics
+- Memory usage grows linearly with number of thoughts
+- No persistence layer, all in-memory operations 
