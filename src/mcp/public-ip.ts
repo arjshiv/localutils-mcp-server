@@ -5,7 +5,7 @@ import https from 'https';
  * Fetches the public IP address using a public API
  * @returns Promise with the public IP address
  */
-async function getPublicIp(): Promise<string> {
+export async function getPublicIp(): Promise<string> {
   return new Promise((resolve, reject) => {
     https.get('https://api.ipify.org', (res) => {
       let data = '';
@@ -16,7 +16,8 @@ async function getPublicIp(): Promise<string> {
         resolve(data.trim());
       });
     }).on('error', (err) => {
-      reject(err);
+      console.error("Error fetching public IP from api.ipify.org:", err);
+      reject(new Error("Failed to fetch public IP address"));
     });
   });
 }
@@ -24,28 +25,15 @@ async function getPublicIp(): Promise<string> {
 export function registerPublicIpTool(server: McpServer): void {
   server.tool(
     "get_public_ip",
-    {},
+    "Returns the public IP address of the machine running the MCP server.",
     async () => {
-      try {
-        const publicIp = await getPublicIp();
-        return {
-          content: [{
-            type: "text",
-            text: JSON.stringify({ publicIp }, null, 2)
-          }]
-        };
-      } catch (error: any) {
-        console.error("Error getting public IP:", error);
-        return {
-          content: [{
-            type: "text",
-            text: JSON.stringify({ 
-              error: "Failed to retrieve public IP address",
-              details: error.message 
-            }, null, 2)
-          }]
-        };
-      }
+      const publicIp = await getPublicIp();
+      return {
+        content: [{
+          type: "text",
+          text: publicIp
+        }]
+      };
     }
   );
 } 

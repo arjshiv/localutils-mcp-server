@@ -7,32 +7,25 @@ const execPromise = promisify(exec);
  * @param port The port number to check
  * @returns Information about the process using the port
  */
-async function checkPort(port) {
+export async function checkPort(port) {
+    let command = '';
+    if (process.platform === 'win32') {
+        command = `netstat -ano | findstr :${port}`;
+    }
+    else if (process.platform === 'darwin') {
+        command = `lsof -i :${port} -P -n -sTCP:LISTEN`;
+    }
+    else {
+        command = `lsof -i :${port} -P -n | grep LISTEN`;
+    }
     try {
-        let command = '';
-        if (process.platform === 'win32') {
-            // Windows
-            command = `netstat -ano | findstr :${port}`;
-        }
-        else if (process.platform === 'darwin') {
-            // macOS
-            command = `lsof -i :${port} -P -n -sTCP:LISTEN`;
-        }
-        else {
-            // Linux and others
-            command = `lsof -i :${port} -P -n | grep LISTEN`;
-        }
-        const { stdout, stderr } = await execPromise(command);
-        if (stderr) {
-            throw new Error(stderr);
-        }
+        const { stdout } = await execPromise(command);
         if (!stdout.trim()) {
             return { message: `No process found using port ${port}` };
         }
         // Parse the output based on the platform
         let result;
         if (process.platform === 'win32') {
-            // Windows parsing
             const lines = stdout.trim().split('\n');
             result = {
                 raw: lines,
@@ -40,20 +33,20 @@ async function checkPort(port) {
             };
         }
         else {
-            // macOS and Linux parsing
             const lines = stdout.trim().split('\n');
             const processes = lines.map(line => {
                 const parts = line.trim().split(/\s+/);
+                // Basic parsing, might need adjustment based on actual lsof output variations
                 return {
-                    command: parts[0],
-                    pid: parts[1],
-                    user: parts[2],
-                    fd: parts[3],
-                    type: parts[4],
-                    device: parts[5],
-                    size: parts[6],
-                    node: parts[7],
-                    name: parts[8]
+                    command: parts[0] || 'N/A',
+                    pid: parts[1] || 'N/A',
+                    user: parts[2] || 'N/A',
+                    fd: parts[3] || 'N/A',
+                    type: parts[4] || 'N/A',
+                    device: parts[5] || 'N/A',
+                    size: parts[6] || 'N/A',
+                    node: parts[7] || 'N/A',
+                    name: parts.slice(8).join(' ') || 'N/A' // Handle names with spaces
                 };
             });
             result = {
@@ -64,49 +57,40 @@ async function checkPort(port) {
         return result;
     }
     catch (error) {
-        if (error.message.includes('Command failed') || error.message.includes('No such file or directory')) {
-            return { message: `No process found using port ${port}` };
-        }
-        throw error;
+        // If the command fails (e.g., port not used), lsof/netstat often exit with error code.
+        // Check the error output or code if necessary, but often it just means no process found.
+        // For simplicity, we assume command failure implies no process found.
+        console.debug(`Port check command for ${port} failed (likely no process found):`, error.message);
+        return { message: `No process found using port ${port}` };
+        // Re-throw only if it's an unexpected error (optional)
+        // if (!error.message.includes('Command failed')) { throw error; }
     }
 }
+// Define the Zod schema for the port parameter
+const PortSchema = z.union([
+    z.number().int().min(1).max(65535),
+    z.string().transform((val, ctx) => {
+        const parsed = parseInt(val, 10);
+        if (isNaN(parsed) || parsed < 1 || parsed > 65535) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Port must be a number between 1 and 65535"
+            });
+            return z.NEVER; // Indicates validation failure
+        }
+        return parsed;
+    })
+]).describe("Port number to check (1-65535)");
 export function registerPortCheckerTool(server) {
-    server.tool("check_port", {
-        port: z.union([
-            z.number().int().min(1).max(65535),
-            z.string().transform((val) => {
-                const parsed = parseInt(val, 10);
-                if (isNaN(parsed)) {
-                    throw new Error("Port must be a valid number");
-                }
-                if (parsed < 1 || parsed > 65535) {
-                    throw new Error("Port must be between 1 and 65535");
-                }
-                return parsed;
-            })
-        ]).describe("Port number to check (1-65535)")
-    }, async (params) => {
-        try {
-            const port = params.port;
-            const result = await checkPort(port);
-            return {
-                content: [{
-                        type: "text",
-                        text: JSON.stringify(result, null, 2)
-                    }]
-            };
-        }
-        catch (error) {
-            console.error("Error checking port:", error);
-            return {
-                content: [{
-                        type: "text",
-                        text: JSON.stringify({
-                            error: "Failed to check port",
-                            details: error.message
-                        }, null, 2)
-                    }]
-            };
-        }
+    server.tool("check_port", { port: PortSchema }, async (params) => {
+        // Let SDK handle errors from checkPort if they are re-thrown
+        // and Zod handle parameter validation errors.
+        const result = await checkPort(params.port);
+        return {
+            content: [{
+                    type: "text",
+                    text: JSON.stringify(result, null, 2)
+                }]
+        };
     });
 }

@@ -14,6 +14,16 @@ const config = {
       },
     ],
   },
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/build/",
+    "/.history/"
+  ],
+  watchPathIgnorePatterns: [
+    "/node_modules/",
+    "/build/",
+    "/.history/"
+  ],
 };
 
 export default config; 

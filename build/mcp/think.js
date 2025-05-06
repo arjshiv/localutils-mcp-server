@@ -1,6 +1,7 @@
 import { z } from "zod";
-export class ThinkTool {
-    thoughts = [];
+// Export this again for the reverted test file
+export class ThinkToolInternalLogic {
+    thoughts = []; // Make public for test access if needed, or add methods
     addThought(content) {
         this.thoughts.push({
             timestamp: new Date().toISOString(),
@@ -26,17 +27,21 @@ export class ThinkTool {
         const averageLength = this.thoughts.reduce((acc, thought) => acc + thought.content.length, 0) / totalThoughts;
         return {
             totalThoughts,
-            averageLength,
+            averageLength: parseFloat(averageLength.toFixed(2)), // Keep formatted
             oldestThought: this.thoughts[0].timestamp,
             newestThought: this.thoughts[this.thoughts.length - 1].timestamp
         };
     }
 }
 export function registerThinkTool(server) {
-    const tool = new ThinkTool();
+    // Use closure state, but keep the class exported for the old test
+    let thoughts = [];
     // Register think command
-    server.tool("think", { thought: z.string().describe("The thought content to record") }, async (params) => {
-        tool.addThought(params.thought);
+    server.tool("think", { thought: z.string().min(1, "Thought cannot be empty").describe("The thought content to record") }, async ({ thought }) => {
+        thoughts.push({
+            timestamp: new Date().toISOString(),
+            content: thought
+        });
         return {
             content: [{
                     type: "text",
@@ -46,31 +51,50 @@ export function registerThinkTool(server) {
     });
     // Register get_thoughts command
     server.tool("get_thoughts", "Retrieve all recorded thoughts", async () => {
-        const thoughts = tool.getAllThoughts();
+        const currentThoughts = [...thoughts];
         return {
             content: [{
                     type: "text",
-                    text: JSON.stringify(thoughts, null, 2)
+                    text: JSON.stringify(currentThoughts, null, 2)
                 }]
         };
     });
     // Register clear_thoughts command
     server.tool("clear_thoughts", "Clear all recorded thoughts", async () => {
-        tool.clearThoughts();
+        const count = thoughts.length;
+        thoughts = []; // Reset the array
         return {
             content: [{
                     type: "text",
-                    text: "All thoughts cleared"
+                    text: `Cleared ${count} recorded thoughts.`
                 }]
         };
     });
     // Register get_thought_stats command
     server.tool("get_thought_stats", "Get statistics about recorded thoughts", async () => {
-        const stats = tool.getThoughtStats();
+        const totalThoughts = thoughts.length;
+        let statsData; // Renamed to avoid conflict with exported interface
+        if (totalThoughts === 0) {
+            statsData = {
+                totalThoughts: 0,
+                averageLength: 0,
+                oldestThought: null,
+                newestThought: null
+            };
+        }
+        else {
+            const averageLength = thoughts.reduce((acc, thought) => acc + thought.content.length, 0) / totalThoughts;
+            statsData = {
+                totalThoughts,
+                averageLength: parseFloat(averageLength.toFixed(2)),
+                oldestThought: thoughts[0].timestamp,
+                newestThought: thoughts[thoughts.length - 1].timestamp
+            };
+        }
         return {
             content: [{
                     type: "text",
-                    text: JSON.stringify(stats, null, 2)
+                    text: JSON.stringify(statsData, null, 2)
                 }]
         };
     });

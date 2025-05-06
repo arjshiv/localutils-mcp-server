@@ -1,26 +1,22 @@
 import * as os from 'os';
+/**
+ * Gets the system hostname.
+ * @returns The system hostname.
+ */
+export function getHostname() {
+    return os.hostname();
+}
 export function registerHostnameTool(server) {
-    server.tool("get_hostname", {}, async () => {
-        try {
-            const hostname = os.hostname();
-            return {
-                content: [{
-                        type: "text",
-                        text: JSON.stringify({ hostname }, null, 2)
-                    }]
-            };
-        }
-        catch (error) {
-            console.error("Error getting hostname:", error);
-            return {
-                content: [{
-                        type: "text",
-                        text: JSON.stringify({
-                            error: "Failed to retrieve hostname",
-                            details: error.message
-                        }, null, 2)
-                    }]
-            };
-        }
+    server.tool("get_hostname", "Returns the hostname of the machine running the MCP server.", async () => {
+        // Note: Error handling is simplified; the MCP SDK handles basic errors.
+        // More complex tools might still need try/catch.
+        const hostname = getHostname();
+        return {
+            content: [{
+                    type: "text",
+                    // Return plain text for simple values
+                    text: hostname
+                }]
+        };
     });
 }
