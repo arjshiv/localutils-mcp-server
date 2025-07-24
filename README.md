@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server that provides access to various local system utilities. This server can be used with Cursor and other MCP-compatible clients to provide quick access to system information.
 
+<a href="https://glama.ai/mcp/servers/@arjshiv/localutils-mcp-server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@arjshiv/localutils-mcp-server/badge" alt="Local Utilities Server MCP server" />
+</a>
+
 ## Features
 
 The server provides the following utilities:
@@ -231,4 +235,4 @@ This will install dependencies and set up the pre-commit hook via Husky.
 
 ## License
 
-MIT 
+MIT
