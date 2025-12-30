@@ -55,9 +55,12 @@ The server can be used with Cursor by configuring it as an MCP server in Cursor'
 3. Add a new MCP server with the following configuration:
    ```json
    {
-     "name": "localutils",
-     "command": "npx",
-     "args": ["localutils-mcp-server"]
+     "mcpServers": {
+       "localutils": {
+         "command": "npx",
+         "args": ["github:arjshiv/localutils-mcp-server"]
+       }
+     }
    }
    ```
 
