@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/arjshiv-localutils-mcp-server-badge.png)](https://mseep.ai/app/arjshiv-localutils-mcp-server)
+
 # Local Utilities MCP Server
 
 A Model Context Protocol (MCP) server that provides access to various local system utilities. This server can be used with Cursor and other MCP-compatible clients to provide quick access to system information.
