@@ -1,5 +1,7 @@
 # Local Utilities MCP Server
 
+[![smithery badge](https://smithery.ai/badge/@arjshiv/localutils-mcp-server)](https://smithery.ai/server/@arjshiv/localutils-mcp-server)
+
 A Model Context Protocol (MCP) server that provides access to various local system utilities. This server can be used with Cursor and other MCP-compatible clients to provide quick access to system information.
 
 ## Features
@@ -15,6 +17,14 @@ The server provides the following utilities:
 - **Think Tool**: Record, retrieve, and analyze thoughts during development sessions
 
 ## Installation
+
+### Installing via Smithery
+
+To install Local Utilities for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@arjshiv/localutils-mcp-server):
+
+```bash
+npx -y @smithery/cli install @arjshiv/localutils-mcp-server --client claude
+```
 
 ### Global Installation
 
